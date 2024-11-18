@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="taskModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tasks">
+    <Key>
+      <PropertyRef Name="task_id" />
+    </Key>
+    <Property Name="task_id" Type="int" Nullable="false" />
+    <Property Name="users_id" Type="int" />
+    <Property Name="title" Type="nvarchar" MaxLength="50" />
+    <Property Name="descriptions" Type="nvarchar" MaxLength="60" />
+    <Property Name="statues" Type="nvarchar" MaxLength="20" />
+    <Property Name="duedate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="users_id" />
+    </Key>
+    <Property Name="users_id" Type="int" Nullable="false" />
+    <Property Name="username" Type="nvarchar" MaxLength="50" />
+    <Property Name="pass" Type="nvarchar" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" MaxLength="20" />
+    <Property Name="roles" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <Association Name="FK__tasks__users_id__3E52440B">
+    <End Role="users" Type="Self.users" Multiplicity="0..1" />
+    <End Role="tasks" Type="Self.tasks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="users_id" />
+      </Principal>
+      <Dependent Role="tasks">
+        <PropertyRef Name="users_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="taskModelStoreContainer">
+    <EntitySet Name="tasks" EntityType="Self.tasks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__tasks__users_id__3E52440B" Association="Self.FK__tasks__users_id__3E52440B">
+      <End Role="users" EntitySet="users" />
+      <End Role="tasks" EntitySet="tasks" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
